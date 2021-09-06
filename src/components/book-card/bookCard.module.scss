@@ -1,0 +1,34 @@
+.container {
+    width: 300px;
+    max-height: 500px;
+
+    & > div {
+        height: 100%;
+    }
+}
+
+.image {
+    height: 180px;
+    padding-top: 20px;
+
+    img {
+        height: 100%;
+        margin: 0 auto;
+        display: block;
+        object-fit: cover;
+    }
+}
+
+.action {
+    border: none;
+    background: none;
+    outline: none;
+    cursor: pointer;
+}
+
+:global(.ant-card-meta-description) {
+    height: 88px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}

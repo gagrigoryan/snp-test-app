@@ -1,0 +1,16 @@
+.container {
+    composes: container from "../styles/layout.module.scss";
+    padding: 100px 0;
+}
+
+.actionWrapper {
+    margin-bottom: 50px;
+}
+
+.booksWrapper {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: space-between;
+    grid-row-gap: 30px;
+}

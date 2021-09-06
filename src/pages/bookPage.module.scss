@@ -1,0 +1,17 @@
+.container {
+    composes: container from "../styles/layout.module.scss";
+    padding: 100px 0;
+}
+
+.wrapper {
+    display: flex;
+}
+
+.image {
+    height: 500px;
+    margin-right: 50px;
+}
+
+.content {
+    width: 500px;
+}
