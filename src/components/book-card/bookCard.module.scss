@@ -32,3 +32,21 @@
     text-overflow: ellipsis;
     width: 100%;
 }
+
+.skeletonWrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.skeletonImage {
+    display: flex;
+    margin-top: 20px;
+}
+
+.bookWrapper {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: space-between;
+    grid-row-gap: 30px;
+}

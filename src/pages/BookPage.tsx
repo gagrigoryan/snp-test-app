@@ -6,6 +6,7 @@ import { RootState } from "../index";
 import { getBook } from "../models/book/slice";
 import { getBookById } from "../utils/getBookById";
 import { TBook } from "../types/book";
+import { Skeleton } from "antd";
 
 interface ParamsType {
     id: string;
@@ -18,15 +19,17 @@ const isNumeric = (value: string): boolean => {
 const BookPage: React.FC = () => {
     const { id } = useParams<ParamsType>();
     const dispatch = useDispatch();
-    const { books } = useSelector((state: RootState) => state.booksStore);
+    const { books, fetching, booksFetched } = useSelector((state: RootState) => state.booksStore);
     const [currentBook, setCurrentBook] = useState<TBook>();
 
     useEffect(() => {
-        isNumeric(id) && dispatch(getBook(+id));
-    }, [dispatch, id]);
+        if (isNumeric(id) && !booksFetched) {
+            dispatch(getBook(+id));
+        }
+    }, [booksFetched, dispatch, id]);
 
     useEffect(() => {
-        if (books.length > 0) {
+        if (books.length > 0 && isNumeric(id)) {
             setCurrentBook(getBookById(books, +id));
         }
     }, [books, id]);
@@ -37,15 +40,19 @@ const BookPage: React.FC = () => {
                 <div>Page not found</div>
             ) : (
                 <div className={styles.container}>
-                    <div className={styles.wrapper}>
-                        <img className={styles.image} src={currentBook.image} alt={currentBook.title} />
-                        <div className={styles.content}>
-                            <h1>{currentBook.title}</h1>
-                            <h2>{currentBook.author}</h2>
-                            <p>{currentBook.description}</p>
-                            <p>{currentBook.price} руб.</p>
+                    {fetching ? (
+                        <Skeleton active loading />
+                    ) : (
+                        <div className={styles.wrapper}>
+                            <img className={styles.image} src={currentBook.image} alt={currentBook.title} />
+                            <div className={styles.content}>
+                                <h1>{currentBook.title}</h1>
+                                <h2>{currentBook.author}</h2>
+                                <p>{currentBook.description}</p>
+                                <p>{currentBook.price} руб.</p>
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             )}
         </>

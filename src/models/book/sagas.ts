@@ -47,7 +47,6 @@ function* postBookSaga({ payload }: AnyAction) {
             type: createBookSuccess.type,
             payload: book,
         });
-        yield call(fetchBooksSaga);
     } catch (error) {
         console.error(error);
     }
@@ -55,11 +54,11 @@ function* postBookSaga({ payload }: AnyAction) {
 
 function* updateBookSaga({ payload }: AnyAction) {
     try {
-        yield call(updateBookById, payload.id, payload);
+        const book: TBook = yield call(updateBookById, payload.id, payload);
         yield put({
             type: updateBookSuccess.type,
+            payload: book,
         });
-        yield call(fetchBooksSaga);
     } catch (error) {
         console.error(error);
     }
@@ -70,8 +69,8 @@ function* deleteBookSaga({ payload }: AnyAction) {
         yield call(deleteBookById, payload);
         yield put({
             type: deleteBookSuccess.type,
+            payload: payload,
         });
-        yield call(fetchBooksSaga);
     } catch (error) {
         console.error(error);
     }

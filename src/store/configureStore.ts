@@ -4,6 +4,7 @@ import createSagaMiddleware from "redux-saga";
 
 import { createRootReducer, rootSaga } from "../models";
 import { History } from "history";
+import { saveState } from "../utils/localStorage";
 
 const configStore = (history: History, initialState: any) => {
     const sagaMiddleware = createSagaMiddleware();
@@ -16,6 +17,10 @@ const configStore = (history: History, initialState: any) => {
     });
 
     sagaMiddleware.run(rootSaga);
+
+    // store.subscribe(() => {
+    //     saveState(store.getState());
+    // });
 
     return store;
 };

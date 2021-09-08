@@ -3,24 +3,20 @@ import styles from "./homePage.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../index";
 import { createBook, getBooks } from "../models/book/slice";
-import BookCard from "../components/book-card/BookCard";
 import { TBook } from "../types/book";
 import { Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import FormPopup from "../components/popup/FormPopup";
+import BookCardWrapper from "../components/book-card/BookCardWrapper";
 
 const HomePage: React.FC = () => {
     const [showPopup, setPopup] = useState<boolean>(false);
     const dispatch = useDispatch();
-    const { books } = useSelector((state: RootState) => state.booksStore);
+    const { books, fetching, booksFetched } = useSelector((state: RootState) => state.booksStore);
 
     useEffect(() => {
-        dispatch(getBooks());
-    }, [dispatch]);
-
-    useEffect(() => {
-        console.log(books);
-    }, [books]);
+        !booksFetched && dispatch(getBooks());
+    }, [dispatch, booksFetched]);
 
     const onSubmit = (data: TBook) => {
         dispatch(createBook(data));
@@ -40,13 +36,7 @@ const HomePage: React.FC = () => {
                     visible={showPopup}
                 />
             </div>
-            {books && (
-                <div className={styles.booksWrapper}>
-                    {books.map((book: TBook) => (
-                        <BookCard key={book.id} {...book} />
-                    ))}
-                </div>
-            )}
+            <BookCardWrapper books={books} fetching={fetching && !booksFetched} />
         </div>
     );
 };
